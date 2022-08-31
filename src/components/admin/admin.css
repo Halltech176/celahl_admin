@@ -1,0 +1,145 @@
+.admin-dashboard {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #2563eb;
+  color: white;
+  padding: 2rem 3rem;
+}
+.admin-img {
+  margin: 2rem 0rem;
+}
+.admin-route {
+  display: flex;
+  flex-direction: column;
+  margin: 3rem 0rem;
+}
+.admin-route a {
+  color: white;
+  font-size: 1.2rem;
+  text-decoration: none;
+  display: block;
+  margin: 0.5rem 0rem;
+}
+.all-users {
+  margin: 2rem 3rem 3rem 14rem;
+}
+.users-heading,
+.users-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #2563eb;
+}
+.users-heading {
+  border-radius: 8px 8px 0px 0px;
+}
+.users-details {
+  font-weight: 300;
+  margin: 0rem 0rem 1rem 0rem;
+  background-color: #f7fcfb;
+}
+.users-details li {
+  text-transform: capitalize;
+  color: black !important;
+  font-weight: 500;
+}
+nav li {
+  list-style-type: none;
+  color: #fff;
+  padding: 1rem 0.5rem;
+}
+nav li span,
+.toggle-container span {
+  margin-left: 1rem;
+  cursor: pointer;
+  /* width: 1rem;
+  height: 1rem; */
+}
+.toggle-container {
+  /* display: flex; */
+  justify-content: flex-start;
+  align-items: center;
+}
+.toggle-container span {
+  background-color: red;
+  padding: 0.3rem;
+  font-size: 0.8rem;
+}
+.agents {
+  margin: 0.2rem 0rem;
+}
+li.active,
+li.inactive {
+  padding: 0.2rem 1rem !important;
+  border-radius: 5px;
+  background-color: #15803d;
+  color: white !important;
+}
+li.inactive {
+  background-color: #ff476b;
+}
+.users-heading-text {
+  color: #2563eb;
+  margin: 1rem 0rem;
+}
+.input-fields {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0rem;
+}
+.input-fields input {
+  border-radius: 10px;
+  border: 1px solid #cccccc !important;
+  padding: 0.2rem 0.4rem !important;
+  outline: none;
+}
+.input-fields button {
+  border-radius: 5px;
+  border: 1px solid #cccccc !important;
+  padding: 0.2rem 1.5rem !important;
+  outline: none;
+}
+.user-agent-dashboard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-agent-dashboard button {
+  border: none;
+  padding: 0.3rem 2rem !important;
+  border-radius: 5px;
+  background-color: #15803d;
+  color: white !important;
+  text-transform: capitalize;
+}
+.user-agent-dashboard button.inactive {
+  background-color: #ff476b;
+}
+.agent {
+  transition: all 2s ease-in-out;
+  display: none;
+  opacity: 0.3;
+}
+.agent_toggle_btn {
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.agent.toggle-show {
+  display: block;
+  opacity: 1;
+  transition: all 2s ease-in-out;
+}
+.paginate-list {
+  background-color: whitesmoke;
+  margin: 0rem 0.2rem;
+  border-radius: 50%;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+}
+.active_page {
+  background-color: #2563eb;
+  color: white;
+}

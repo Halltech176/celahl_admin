@@ -1,0 +1,31 @@
+.login_btn {
+  width: 16rem;
+  font-family: "Inter";
+  background-color: #2563eb;
+}
+.login_container {
+  font-family: sans-serif;
+  font-weight: 100 !important;
+  width: 40% !important;
+}
+.verify {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.heading_text {
+  font-weight: 700 !important;
+  font-size: 1.8rem;
+}
+.welcome_text {
+  /* display: none; */
+  color: #667085;
+}
+@media (max-width: 600px) {
+  .login_container {
+    width: 90% !important;
+  }
+  .verify {
+    display: block !important;
+  }
+}
