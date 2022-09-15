@@ -2,9 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { UserReducer } from "./UsersSlice";
-import { loginReducer } from "./loginSlice";
-import user from "./VerifyUserSlice";
+import { UsersReducer } from "./slices/UsersSlice";
+import { UserReducer } from "./slices/UserSlice";
+import { GetAgentReducer } from "./slices/AgentSlice";
+import { loginReducer } from "./slices/loginSlice";
+import { SettingsReducer } from "./slices/SettingsSlice";
+import { BanksReducer } from "./slices/BankSlice";
 
 const persistConfig = {
   key: "root",
@@ -12,8 +15,11 @@ const persistConfig = {
 };
 const reducers = combineReducers({
   login: loginReducer,
-  users: UserReducer,
-  user,
+  users: UsersReducer,
+  userProfile: UserReducer,
+  agent: GetAgentReducer,
+  settings: SettingsReducer,
+  banks: BanksReducer,
 });
 const persistedReducers = persistReducer(persistConfig, reducers);
 const Store = configureStore({

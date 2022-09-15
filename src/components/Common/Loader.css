@@ -1,0 +1,12 @@
+.loader-icon {
+  background: white;
+  position: absolute;
+  top: 0rem;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  z-index: 5;
+}

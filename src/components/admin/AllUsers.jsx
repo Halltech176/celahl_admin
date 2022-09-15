@@ -1,203 +1,156 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import "./admin.css";
 import Admin from "./admin";
-import { Users } from "../../Redux/actions";
-import { getUser } from "../../Redux/VerifyUserSlice";
+// import { Users } from "../../Redux/actions";
+import { GetAgent, Users } from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { Link, animateScroll as scroll } from "react-scroll";
-// import arrow_down from "../../../Assets/arrow_down1.png";
+import Loader from "../Common/Loader";
+import { ErrorNotification } from "../Common/ErrorToast";
 import axios from "axios";
+
 const AllUsers = () => {
-  const [open, setOpen] = useState(false);
-  const [count, setCount] = useState(1);
+  useEffect(() => {
+    dispatch(Users());
+  }, []);
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.users);
-  const selector = useSelector((state) => state);
-  const paginate = useSelector((state) => state.users);
-  console.log(user.page);
+  const navigate = useNavigate();
+  const { loading, error, users } = useSelector((state) => state.users);
+  const {
+    loading: userLoading,
+    error: userError,
+    agent,
+  } = useSelector((state) => state.agent);
+  console.log(agent);
 
-  // const getAllUsers = async () => {}
+  const [count, setCount] = useState(2);
+
   const GetUser = (id) => {
-    const user_detail = user.docs.find((user) => {
-      return user._id === id;
-    });
-    dispatch(getUser(user_detail));
-    setOpen(true);
-    console.log(user_detail);
-  };
-  const user_detail = selector.user.user;
+    window.localStorage.setItem("agent_id", JSON.stringify(id));
+    navigate("/agent");
 
-  console.log(user_detail);
-
-  const updateUser = async (id, status) => {
-    try {
-      const token = window.JSON.parse(localStorage.getItem("token"));
-      const response = await axios.put(
-        `https://celahl.herokuapp.com/api//admin/status/${id}`,
-        { status: `${status === "active" ? "inactive" : "active"}` },
-        {
-          headers: {
-            Authorization: `Bearer ${token} `,
-          },
-        }
-      );
-      dispatch(getUser(response.data.data));
-      await dispatch(Users(count));
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
+    dispatch(GetAgent(id));
   };
-  const increaseCount = () => {
-    if (user.docs.length === 0) {
+
+  const handleIncrease = async () => {
+    setCount(count + 1);
+
+    if (count === users?.totalPages) {
       setCount(1);
-      dispatch(Users(count));
-    } else {
-      setCount(count + 1);
-      dispatch(Users(count));
     }
-  };
-  const decreaseCount = () => {
-    setCount(count - 1);
-    dispatch(Users(count));
-  };
-  const paginatePage = async (page_num) => {
-    await dispatch(Users(page_num));
+
+    await dispatch(Users(count));
   };
 
-  const FilterUser = async (page = 1) => {
-    const token = window.JSON.parse(localStorage.getItem("token"));
-    const response = await axios.get(
-      `https://celahl.herokuapp.com/api//admin/users?type=agent&limit=10&page=${page}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      }
-    );
+  const handleDecrease = async () => {
+    setCount(count - 1);
+
+    if (count === 1) {
+      setCount(users?.totalPages);
+    }
+
+    await dispatch(Users(count));
   };
-  const users = user.docs.map((user, index) => {
+
+  const handlePaginate = async (index) => {
+    const response = await dispatch(Users(index));
+  };
+
+  const users_details = users?.docs.map((user, index) => {
     return (
       <nav className="users-details">
-        <li>{index}</li>
         <li>
-          {user.firstName} {user.lastName}
+          {user?.firstName} {user?.lastName}
         </li>
-        <li>{user.accountPlan}</li>
-        {/* <li>{user.email}</li> */}
-        <li>{new Date(user.updatedAt).toLocaleDateString()}</li>
-        <li>Due Date</li>
-        <li className={user.status}>
-          {user.status}
-          <Link
-            to="agent"
-            spy={true}
-            smooth={true}
-            // offset={-70}
-            duration={100}
-          >
-            <span onClick={() => GetUser(user._id)}>
-              x{/* <img src={arrow_down} alt="arrow_down" /> */}
-            </span>
-          </Link>
+        <li>{user?.accountPlan}</li>
+        {/* <li>{user?.email}</li> */}
+        <li>{new Date(user?.updatedAt).toLocaleDateString()}</li>
+
+        <li
+          onClick={() => GetUser(user?._id)}
+          style={{ cursor: "pointer" }}
+          className={`${user?.status}`}
+        >
+          {user?.status}
         </li>
       </nav>
     );
   });
-
   return (
     <>
-      {paginate.loading ? (
-        <h1>loading...</h1>
+      {" "}
+      {loading && !error ? (
+        <Loader />
       ) : (
-        <div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <Admin />
           <div className="all-users">
-            <div
-              className={`agent ${open && "toggle-show"} `}
-              id="agent"
-              title="agent"
-            >
-              <h1 className="users-heading-text">Agent Dashboard</h1>
-              <div className="">
-                {user_detail === null ? (
-                  ""
-                ) : (
-                  <div className="user-agent-dashboard">
-                    <div>
-                      <h3 className="user-status-label">
-                        Account Status: <label>{user_detail.status}</label>
-                      </h3>
-                      <h3 className="user-status-label">
-                        Name:
-                        <label>
-                          {user_detail.firstName} {user_detail.lastName}
-                        </label>
-                      </h3>
-                      <h3 className="user-status-label">
-                        Phone No: <label>{user_detail.phone}</label>
-                      </h3>
-                      <h3 className="user-status-label">
-                        Account Plan: <label>{user_detail.accountPlan} </label>
-                      </h3>
-                    </div>
-
-                    <div className="toggle-container">
-                      <button
-                        onClick={() =>
-                          updateUser(user_detail._id, user_detail.status)
-                        }
-                        className={user_detail.status}
-                      >
-                        {user_detail.status}
-                      </button>
-                      <span
-                        onClick={() => setOpen(false)}
-                        className="agent_toggle_btn1"
-                      >
-                        x
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+            <h2 className="total_text">Total Agents: {users?.totalDocs}</h2>
 
             <div className="input-fields">
               <input type="text" placeholder="Search" />
-              <input type="text" placeholder="Filter" />
+
               <button>Export</button>
             </div>
             <nav className="users-heading">
               <li>Agent Name</li>
               <li>Plan Type</li>
               <li>subscription Date</li>
-              <li>Due Date</li>
               <li>Status</li>
             </nav>
-            <div className="agents">{users}</div>
-            <div className="input-fields">
-              <button onClick={decreaseCount}>Preview</button>
-              <ul className="pagination">
-                {user.docs.map((_, index) => {
-                  return (
-                    <li
-                      key={index}
-                      onClick={() => paginatePage(index)}
-                      className={`paginate-list ${
-                        user.page === index ? "active_page" : ""
-                      }`}
-                    >
-                      {index + 1}
-                    </li>
-                  );
-                })}
-              </ul>
-              <button onClick={increaseCount}>Next</button>
+            <div className="agents">{users_details}</div>
+            <div>
+              {users?.totalPages === 1 ? (
+                ""
+              ) : (
+                <div className="paginate-btns d-flex align-items-center justify-content-between my-3 flex-wrap ">
+                  {users?.page === 1 ? (
+                    <div> </div>
+                  ) : (
+                    <button className="paginate-btn" onClick={handleDecrease}>
+                      prev
+                    </button>
+                  )}
+
+                  <ul className="d-flex align-items-center">
+                    {users?.docs?.map((doc, index) => {
+                      // if(inde)
+                      return index < users?.totalPages ? (
+                        <li
+                          key={index}
+                          onClick={() => handlePaginate(index + 1)}
+                          className={`${
+                            users?.page === index + 1
+                              ? "active_page"
+                              : "inactive_page"
+                          } mx-2`}
+                        >
+                          {index + 1}
+                        </li>
+                      ) : (
+                        ""
+                      );
+                    })}
+                  </ul>
+                  {users?.page === users?.totalPages ? (
+                    <div> </div>
+                  ) : (
+                    <button className="paginate-btn" onClick={handleIncrease}>
+                      next
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
     </>
   );

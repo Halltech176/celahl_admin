@@ -1,10 +1,11 @@
-.admin-dashboard {
-  position: absolute;
+.adminDashboard {
+  z-index: 10;
+  position: fixed;
   top: 0;
+  left: 0;
   bottom: 0;
+  padding: 0.5rem 2rem 1rem 0rem !important;
   background-color: #2563eb;
-  color: white;
-  padding: 2rem 3rem;
 }
 .admin-img {
   margin: 2rem 0rem;
@@ -12,14 +13,32 @@
 .admin-route {
   display: flex;
   flex-direction: column;
-  margin: 3rem 0rem;
+  margin: 3rem 1.2rem;
+}
+.link-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.link-flex img {
+  width: 1.5rem;
+  margin-right: 0.2rem;
+}
+.profile-text {
+  font-family: "DM Mono", monospace;
+  color: #fff;
+  text-align: center;
+  font-size: 0.9rem;
 }
 .admin-route a {
   color: white;
   font-size: 1.2rem;
   text-decoration: none;
   display: block;
-  margin: 0.5rem 0rem;
+  font-family: "DM Mono", monospace;
+  margin: 1rem 0rem;
+  font-weight: 400;
+  line-height: 1.2rem;
 }
 .all-users {
   margin: 2rem 3rem 3rem 14rem;
@@ -31,9 +50,12 @@
   align-items: center;
   flex-wrap: wrap;
   background-color: #2563eb;
+  font-weight: 400;
+  font-family: "DM Mono", monospace;
 }
 .users-heading {
   border-radius: 8px 8px 0px 0px;
+  flex-wrap: nowrap;
 }
 .users-details {
   font-weight: 300;
@@ -43,7 +65,11 @@
 .users-details li {
   text-transform: capitalize;
   color: black !important;
-  font-weight: 500;
+  font-weight: 400;
+  font-family: "DM Mono", monospace;
+}
+li {
+  list-style-type: none;
 }
 nav li {
   list-style-type: none;
@@ -72,7 +98,7 @@ nav li span,
 }
 li.active,
 li.inactive {
-  padding: 0.2rem 1rem !important;
+  padding: 0.2rem 0.5rem !important;
   border-radius: 5px;
   background-color: #15803d;
   color: white !important;
@@ -88,6 +114,7 @@ li.inactive {
   display: flex;
   justify-content: space-between;
   margin: 1rem 0rem;
+  flex-wrap: wrap;
 }
 .input-fields input {
   border-radius: 10px;
@@ -102,10 +129,12 @@ li.inactive {
   outline: none;
 }
 .user-agent-dashboard {
+  font-family: "DM Mono", monospace !important;
+  font-size: 0.7rem;
+  /* font-weight :  */
   display: flex;
   justify-content: space-between;
 }
-
 .user-agent-dashboard button {
   border: none;
   padding: 0.3rem 2rem !important;
@@ -137,9 +166,134 @@ li.inactive {
   margin: 0rem 0.2rem;
   border-radius: 50%;
   padding: 0.4rem 0.7rem;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .active_page {
   background-color: #2563eb;
   color: white;
+}
+.paginate-btn {
+  padding: 0.3rem 1.2rem !important;
+  border: none;
+  font-family: "Public Sans", sans-serif !important;
+  color: #2562e9 !important;
+  border-radius: 5px;
+  font-weight: bolder;
+}
+.paginate-btn:hover {
+  transform: scale(0.8);
+  background: #2562e9 !important;
+  color: whitesmoke !important;
+}
+.inactive_page,
+.active_page {
+  background-color: #2562e9;
+  border-radius: 50%;
+  text-align: center;
+  width: 2rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  color: white !important;
+  transform: scale(1);
+  font-family: "Public Sans", sans-serif !important;
+}
+.inactive_page {
+  background-color: whitesmoke;
+  color: black !important;
+  transform: scale(0.8);
+}
+.total_text {
+  color: #2562e9;
+  font-family: "DM Mono", monospace !important;
+}
+.no_transaction,
+.no_user {
+  font-family: "DM Mono", monospace;
+  text-align: center;
+  border: 2px dashed #2562e9;
+}
+.no_user {
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 3rem 2rem;
+}
+.account_settings {
+  margin: 2rem 3rem 3rem 14rem;
+  font-family: "DM Mono", monospace;
+}
+.update-btn {
+  width: 8rem !important;
+  height: 2rem !important;
+}
+.plan-container > div {
+  display: flex;
+  justify-content: space-around;
+  /* width: 20rem; */
+}
+.sidebar_btn {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .adminDashboard {
+    transition: all 2s ease transform 3.5s;
+    animation: Sidebar 0.7s ease forwards;
+    animation-duration: 1s;
+  }
+
+  .show_bar {
+    display: none !important;
+    /* font-size: 0.5rem !important; */
+  }
+  @keyframes Sidebar {
+    0% {
+      bottom: 80%;
+      width: 10%;
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.5;
+      visibility: none !important;
+    }
+    100% {
+      bottom: 0;
+      width: 50%;
+    }
+  }
+  .sidebar_btn {
+    display: flex !important;
+  }
+  .account_settings {
+    margin: 0.5rem;
+  }
+  .no_user {
+    width: 90%;
+  }
+  .user-agent-dashboard {
+    display: block;
+  }
+  .all-users {
+    margin: 0.5rem;
+
+    /* font-size: 0.5rem !important; */
+  }
+  .users-heading {
+    border-radius: 0px;
+    overflow: scroll;
+  }
+  .users-details {
+    flex-wrap: nowrap;
+    overflow: scroll;
+  }
+  .plan-container > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+  }
 }
